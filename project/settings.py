@@ -31,14 +31,8 @@ INSTALLED_APPS = [
 
     'apiendpoint',
     'rest_framework',
-    "corsheaders",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'https://34.125.33.64:8000',
-    'http://127.0.0.1:8000',
-   
-]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,16 +69,14 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+import dj_database_url
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ["PGDATABASE"],
-        'USER': os.environ["PGUSER"],
-        'PASSWORD': os.environ["PGPASSWORD"],
-        'HOST': os.environ["PGHOST"],
-        'PORT': os.environ["PGPORT"],
-    }
+    "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
 }
+
 
 
 # Password validation
@@ -133,3 +125,4 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ]
 }
+
